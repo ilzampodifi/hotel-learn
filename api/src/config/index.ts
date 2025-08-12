@@ -10,6 +10,7 @@ export const getConfig = () => {
 
   if (!config.success) {
     throw new Error(`Invalid environment variables: ${config.error.message}`);
+    process.exit(1);
   }
 
   cached = Object.freeze(config.data);
