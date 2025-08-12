@@ -9,7 +9,7 @@ export const getConfig = () => {
   const config = configSchema.safeParse(env);
 
   if (!config.success) {
-    throw new Error(`Invalid environment variables: ${config.error.message}`);
+    console.error(`Invalid environment variables: ${config.error.message}`);
     process.exit(1);
   }
 
