@@ -1,6 +1,7 @@
 import express from "express";
 import compression from "compression";
 import { Server } from "http";
+import { HealthResponse } from "./src/type/health";
 
 let server: Server;
 const app = express();
@@ -9,6 +10,22 @@ const port = Number(process.env.API_PORT) || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(compression());
+
+app.get("/", (req, res) => {
+  res.json({ status: "ok" });
+});
+
+app.get("/health", (req, res) => {
+  const health: HealthResponse = {
+    status: "UP",
+    services: "api",
+    version: "1.0.0",
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    components: {},
+  };
+  res.json(health);
+});
 
 const gracefulShutdown = (signal: string) => {
   console.log(`Received ${signal}. Starting graceful shutdown...`);
